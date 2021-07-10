@@ -1,6 +1,5 @@
 from PyQt5.uic import loadUi
-from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QDialog, QApplication, QStackedWidget, QWidget, QMainWindow
+from PyQt5.QtWidgets import QMainWindow
 
 class Ranking(QMainWindow):
     def __init__(self,  widget):

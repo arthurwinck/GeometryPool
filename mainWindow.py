@@ -3,6 +3,7 @@ from PyQt5.uic import loadUi
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QDialog, QApplication, QStackedWidget, QWidget, QMainWindow
 
+from escolhaJogador import EscolhaJogador
 from escolhaMesa import EscolhaMesa
 from ranking import Ranking
 
@@ -14,7 +15,7 @@ class MainWindow(QMainWindow):
         self.gerarTelas()
         self.gerarWidgets()
 
-        self.buttonComecar.clicked.connect(self.goto_escolha_mesa)
+        self.buttonComecar.clicked.connect(self.goto_escolha_jogador)
         self.buttonRanking.clicked.connect(self.goto_ranking)
         self.buttonSair.clicked.connect(self.sair)
 
@@ -27,11 +28,13 @@ class MainWindow(QMainWindow):
 
         self.escolha_mesa = EscolhaMesa(self.widget)
         self.ranking = Ranking(self.widget)
+        self.escolha_jogador = EscolhaJogador(self.widget)
 
         self.widget.show()
         
 
     def gerarWidgets(self):
+        self.widget.addWidget(self.escolha_jogador)
         self.widget.addWidget(self.escolha_mesa)
         self.widget.addWidget(self.ranking)
 
@@ -39,8 +42,8 @@ class MainWindow(QMainWindow):
         self.close()
         sys.exit()
 
-    def goto_escolha_mesa(self):
+    def goto_escolha_jogador(self):
         self.widget.setCurrentIndex(1)
 
     def goto_ranking(self):
-        self.widget.setCurrentIndex(2)
+        self.widget.setCurrentIndex(3)
