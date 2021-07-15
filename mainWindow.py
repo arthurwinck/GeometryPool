@@ -10,6 +10,7 @@ from escolhaJogador import EscolhaJogador
 from escolhaMesa import EscolhaMesa
 from ranking import Ranking
 from telaInicial import TelaInicial
+from telaJogo import TelaJogo
 
 class MainWindow(QObject):
     def __init__(self):
@@ -43,9 +44,11 @@ class MainWindow(QObject):
         self.tela_inicial.sinalSair.connect(self.sair)
             
     def iniciarJogo(self):
+        jogo = TelaJogo()
         print("jogo iniciou!")
+
         #método para iniciar a execução do pygame
 
     def sair(self):
         self.close()
-        sys.exit()
+        
