@@ -1,11 +1,8 @@
-import sys
-import PyQt5
+#imports de biblioteca
 from PyQt5.QtCore import QObject
-from PyQt5.uic import loadUi
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QDialog, QApplication, QStackedWidget, QWidget, QMainWindow
-from PyQt5.Qt import pyqtSignal
 
+#imports das classes utilizadas
 from escolhaJogador import EscolhaJogador
 from escolhaMesa import EscolhaMesa
 from ranking import Ranking
@@ -13,42 +10,46 @@ from telaInicial import TelaInicial
 from telaJogo import TelaJogo
 
 class MainWindow(QObject):
+    #Criação do widget, que será o display de todas as telas, além disso realizar os outros métodos
     def __init__(self):
         super(MainWindow, self).__init__()
         self.widget = QtWidgets.QStackedWidget()
 
-        self.gerarTelas()
-        self.gerarWidgets()
-        self.mostrarTela()
-        self.gerarSinais()
-        
-    def gerarTelas(self):
+        self.gerar_telas()
+        self.gerar_widgets()
+        self.mostrar_tela()
+        self.gerar_sinais()
+    
+    #Criar as classes que possuem os layouts das telas
+    def gerar_telas(self):
         self.tela_inicial = TelaInicial(self.widget)
         self.escolha_jogador = EscolhaJogador(self.widget)
         self.escolha_mesa = EscolhaMesa(self.widget)
         self.ranking = Ranking(self.widget)
         
-    def gerarWidgets(self):
+    #Adicionar essas telas ao widget principal
+    def gerar_widgets(self):
         self.widget.addWidget(self.tela_inicial)
         self.widget.addWidget(self.escolha_jogador)
         self.widget.addWidget(self.escolha_mesa)
         self.widget.addWidget(self.ranking)
 
-    def mostrarTela(self):
+    #Definir tamanho e mostrar a tela
+    def mostrar_tela(self):
         self.widget.setFixedHeight(600)
         self.widget.setFixedWidth(815)
         self.widget.show()
 
-    def gerarSinais(self):
-        self.escolha_mesa.sinalIniciar.connect(self.iniciarJogo)
-        self.tela_inicial.sinalSair.connect(self.sair)
+    #Conectar os botões do layout com as funções
+    def gerar_sinais(self):
+        self.escolha_mesa.sinal_iniciar.connect(self.iniciarJogo)
+        self.tela_inicial.sinal_sair.connect(self.sair)
             
+    #Ao apertar o botão de começar no layout de escolha de mesa, inicia-se o jogo (pygame)
     def iniciarJogo(self):
-        jogo = TelaJogo()
-        print("jogo iniciou!")
+        self.tela_jogo = TelaJogo()
 
-        #método para iniciar a execução do pygame
-
+    #Ao sair do jogo, encerra-se a execução
     def sair(self):
         self.close()
         

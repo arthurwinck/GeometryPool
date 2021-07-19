@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QMainWindow, QDialog, QWidget
 from PyQt5.Qt import pyqtSignal
 
 class TelaInicial(QMainWindow):
-    sinalSair = pyqtSignal()
+    sinal_sair = pyqtSignal()
 
     def __init__(self, widget):
         super(TelaInicial, self).__init__()
@@ -22,4 +22,4 @@ class TelaInicial(QMainWindow):
         self.widget.setCurrentIndex(3)
 
     def sair(self):
-        self.sinalSair.emit()
+        self.sinal_sair.emit()
