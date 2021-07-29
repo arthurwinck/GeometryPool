@@ -5,23 +5,19 @@ class TelaMesa(Sprite):
     def __init__(self, superficie):
         super().__init__()
         self.superficie = superficie
+        self.telaX, self.telaY = py.display.get_surface().get_size()
+        self.tamX = 1000
+        self.tamY = 500
         self.desenhar_mesa()
 
     def desenhar_mesa(self):
-        X = 1280
-        Y = 720
-        
-        tamX = 1000
-        tamY = 500
-
-
-        tamPos = ((X - tamX)/2,(Y - tamY)/2, tamX, tamY)
+        tamPos = ((self.telaX - self.tamX)/2,(self.telaY - self.tamY)/2, self.tamX, self.tamY)
         green = (34, 161, 65)
 
         py.draw.rect(self.superficie, green, tamPos)
         
         for i in range(3):
             for j in range(2):
-                py.draw.circle(self.superficie, green, ((X - tamX)/2 + (tamX/2)*i, (Y - tamY)/2 + (tamY)*j), 25)
+                py.draw.circle(self.superficie, green, ((self.telaX - self.tamX)/2 + (self.tamX/2)*i, (self.telaY - self.tamY)/2 + (self.tamY)*j), 25)
 
-        self.rect = ((X - tamX)/2,(Y - tamY)/2, tamX, tamY)
+        self.rect = ((self.telaX - self.tamX)/2,(self.telaY - self.tamY)/2, self.tamX, self.tamY)

@@ -1,5 +1,4 @@
 import pygame as py
-from time import sleep
 
 from telaMesa import TelaMesa
 
@@ -8,12 +7,13 @@ class TelaJogo():
         self.tela = py.display
 
         self.configurar_tela()
-        self.adicionar_mesa()
+        self.iniciar_jogo()
+        #self.adicionar_mesa()
+        self.iniciar_jogo()
         
     def configurar_tela(self):
 
         azul = (82,91,247)
-        verde = ()
 
         self.tela.set_caption('Geometry Pool')
         self.superficie = self.tela.set_mode((1280,720))
@@ -21,9 +21,18 @@ class TelaJogo():
         self.tela.update()
         
     def adicionar_mesa(self):
+        pass
+
+    def iniciar_jogo(self):
         self.mesa = TelaMesa(self.superficie)
         self.tela.update()
 
+        while True:
+            for event in py.event.get():
+                if event.type == py.QUIT:
+                    py.quit()
+                    quit()
 
 
+  
 

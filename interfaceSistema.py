@@ -9,10 +9,10 @@ from ranking import Ranking
 from telaInicial import TelaInicial
 from telaJogo import TelaJogo
 
-class MainWindow(QObject):
+class InterfaceSistema(QObject):
     #Criação do widget, que será o display de todas as telas, além disso realizar os outros métodos
     def __init__(self):
-        super(MainWindow, self).__init__()
+        super(InterfaceSistema, self).__init__()
         self.widget = QtWidgets.QStackedWidget()
 
         self.gerar_telas()
