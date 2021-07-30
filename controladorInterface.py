@@ -7,12 +7,12 @@ from escolhaJogador import EscolhaJogador
 from escolhaMesa import EscolhaMesa
 from ranking import Ranking
 from telaInicial import TelaInicial
-from telaJogo import TelaJogo
+from controladorJogo import ControladorJogo
 
-class InterfaceSistema(QObject):
+class ControladorInterface(QObject):
     #Criação do widget, que será o display de todas as telas, além disso realizar os outros métodos
     def __init__(self):
-        super(InterfaceSistema, self).__init__()
+        super(ControladorInterface, self).__init__()
         self.widget = QtWidgets.QStackedWidget()
 
         self.gerar_telas()
@@ -47,7 +47,7 @@ class InterfaceSistema(QObject):
             
     #Ao apertar o botão de começar no layout de escolha de mesa, inicia-se o jogo (pygame)
     def iniciarJogo(self):
-        self.tela_jogo = TelaJogo()
+        self.tela_jogo = ControladorJogo()
 
     #Ao sair do jogo, encerra-se a execução
     def sair(self):
