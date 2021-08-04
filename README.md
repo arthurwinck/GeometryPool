@@ -1,2 +1,2 @@
 # Geometry Pool
-## Projeto da Disciplian de Engenharia de Software I - UFSC
+## Projeto da Disciplina de Engenharia de Software I - UFSC
