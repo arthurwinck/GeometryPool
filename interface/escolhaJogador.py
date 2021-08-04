@@ -5,7 +5,7 @@ class EscolhaJogador(QMainWindow):
     def __init__(self, widget):
         super(EscolhaJogador, self).__init__()
         self.widget = widget
-        loadUi("gui/escolha_jogador.ui", self)
+        loadUi("interface/gui/escolha_jogador.ui", self)
         self.EJbuttonContinuar.clicked.connect(self.goto_escolha_mesa)
         self.EJbuttonVoltar.clicked.connect(self.voltar)
 

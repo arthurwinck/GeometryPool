@@ -1,8 +1,8 @@
 import pygame as py
 import pymunk
 
-from telaMesa import TelaMesa
-from telaBola import TelaBola
+from .telaMesa import TelaMesa
+from .telaBola import TelaBola
 
 #Mudar para SistemaJogo
 class ControladorJogo():
@@ -29,8 +29,6 @@ class ControladorJogo():
         self.mesa = TelaMesa(self.superficie)
         self.bola1 = TelaBola(200, 200, 20, self.superficie)
         self.bola2 = TelaBola(250, 200, 0, self.superficie)
-
-        self.adicionar_mesa()
 
         self.space.add(self.bola1.corpo, self.bola1.forma)
         self.space.add(self.bola2.corpo, self.bola2.forma)

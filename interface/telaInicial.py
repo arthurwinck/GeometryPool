@@ -8,7 +8,7 @@ class TelaInicial(QMainWindow):
     def __init__(self, widget):
         super(TelaInicial, self).__init__()
         self.widget = widget
-        loadUi("gui/main.ui", self)
+        loadUi("interface/gui/main.ui", self)
         
         #botões da UI
         self.buttonComecar.clicked.connect(self.goto_escolha_jogador)

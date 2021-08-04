@@ -17,6 +17,8 @@ class TelaBola():
         pos_y = int(self.corpo.position.y)
         print(self.corpo.position.x)
         print(self.corpo.position.y)
+        if self.corpo.velocity.x > 0:
+            self.corpo.velocity = self.corpo.velocity.x - 0.1, 0
 
 
         py.draw.circle(self.superficie, (255,0,0), (pos_x,pos_y), 15)   

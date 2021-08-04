@@ -3,11 +3,11 @@ from PyQt5.QtCore import QObject
 from PyQt5 import QtWidgets
 
 #imports das classes utilizadas
-from escolhaJogador import EscolhaJogador
-from escolhaMesa import EscolhaMesa
-from ranking import Ranking
-from telaInicial import TelaInicial
-from controladorJogo import ControladorJogo
+from .escolhaJogador import EscolhaJogador
+from .escolhaMesa import EscolhaMesa
+from .ranking import Ranking
+from .telaInicial import TelaInicial
+from .controladorJogo import ControladorJogo
 
 class ControladorInterface(QObject):
     #Criação do widget, que será o display de todas as telas, além disso realizar os outros métodos
