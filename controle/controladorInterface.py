@@ -9,7 +9,7 @@ from interface.ranking import Ranking
 from interface.telaInicial import TelaInicial
 
 #import do controlador do jogo
-from .controladorJogo import ControladorJogo
+from interface.telaJogo import ControladorJogo
 
 
 class ControladorInterface(QObject):
