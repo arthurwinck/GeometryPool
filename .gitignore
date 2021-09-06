@@ -1,2 +1,4 @@
-GeometryPool.vpp.bak.*
-*.bak
+**.lck
+**.bak*
+**.pyc
+ranking.json
