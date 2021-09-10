@@ -29,7 +29,10 @@ class ControladorJogo():
         self.superficie = self.tela.set_mode((1280,720))
         self.superficie.fill(azul)
         self.tela.update()
-        
+    
+
+    #No diagrama a responsabilidade de instanciar bola e cacapa é da Mesa
+    #Instanciar a Mesa aqui, e a Mesa instancia o resto (bola e caçapa)
     def iniciar_jogo(self):
         #Instanciar os objetos necessários para o início do jogo
         self.telaMesa = TelaMesa(self.superficie)
