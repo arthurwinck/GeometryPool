@@ -3,9 +3,9 @@ import pymunk
 
 #imports dos modelos
 from .telaMesa import TelaMesa
-from .telaBola import TelaBola
+from . import Bola
 
-#Mudar para SistemaJogo
+#Esse deveria ser ControladorJogo, já que inicializa os objetos Pygame
 class TelaJogo():
     def __init__(self):
         py.init()
@@ -28,8 +28,10 @@ class TelaJogo():
         
     def iniciar_jogo(self):
         self.mesa = TelaMesa(self.superficie)
-        self.bola1 = TelaBola(200, 200, 20, self.superficie)
-        self.bola2 = TelaBola(250, 200, 0, self.superficie)
+        self.bola1 = Bola(200, 200, 20, self.superficie)
+        self.bola2 = Bola(250, 200, 0, self.superficie)
+
+
 
         self.space.add(self.bola1.corpo, self.bola1.forma)
         self.space.add(self.bola2.corpo, self.bola2.forma)
