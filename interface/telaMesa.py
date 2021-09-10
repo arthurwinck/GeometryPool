@@ -9,6 +9,7 @@ class TelaMesa(Sprite):
         self.telaX, self.telaY = py.display.get_surface().get_size()
         self.tamX = 1000
         self.tamY = 500
+        self.tamPos = ((self.telaX - self.tamX)/2,(self.telaY - self.tamY)/2, self.tamX, self.tamY)
         #variável que teria que ser colocada em um arquivo de configuração
         self.green = (34, 161, 65)
 
@@ -22,10 +23,9 @@ class TelaMesa(Sprite):
 
         self.rect = ((self.telaX - self.tamX)/2,(self.telaY - self.tamY)/2, self.tamX, self.tamY)
 
-    def desenharBolas(self):
-        pos_x = int(self.corpo.position.x)
-        pos_y = int(self.corpo.position.y)
-        if self.corpo.velocity.x > 0:
-            self.corpo.velocity = self.corpo.velocity.x - 0.1, 0
-
-        py.draw.circle(self.superficie, (255,0,0), (pos_x,pos_y), 15)   
+    def desenharBolas(self, bolas):
+        for bola in bolas:
+            pos_x, pos_y = bola.getPosicao()
+            vel_x, vel_y = bola.getVelocidade()
+            
+            py.draw.circle(self.superficie, bola.cor, (pos_x,pos_y), 15)   
