@@ -1,7 +1,7 @@
 import pygame as py
 import pymunk
 
-from bola import Bola
+from .bola import Bola
 
 class BolaPontos(Bola):
     def __init__(self, x,y, velocidade,superficie, valor):
