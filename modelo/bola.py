@@ -10,14 +10,24 @@ class Bola():
         self.cor = cor
 
     def aplicar_atrito(self):
-        #TODO - ATUALIZAR DIAGRAMA COM NOVO MÉTODO
+        # Método para aplicar o atrito de uma maneira top-down (não existe no pymunk)
+        # Estabelecendo um atrito, podemos parar a a movimentação se a velocidade for minúscula
         atrito = 0.1
-        if self.corpo.velocity.x > 0 and self.corpo.velocity.y > 0:
+
+        #Também é possível criar uma variável que indica se uma bola está em movimento ou não
+        movimento = True
+
+        if abs(self.corpo.velocity.x) < atrito - 0.01 and abs(self.corpo.velocity.x) < atrito - 0.01:
+            self.corpo.velocity = 0,0
+            movimento = False
+        elif self.corpo.velocity.x > 0 and self.corpo.velocity.y > 0:
             self.corpo.velocity = (self.corpo.velocity.x - atrito), (self.corpo.velocity.y - atrito)
         elif self.corpo.velocity.x > 0 and self.corpo.velocity.y < 0:
             self.corpo.velocity = (self.corpo.velocity.x - atrito), (self.corpo.velocity.y + atrito)
         elif self.corpo.velocity.x < 0 and self.corpo.velocity.y < 0:
             self.corpo.velocity = (self.corpo.velocity.x + atrito), (self.corpo.velocity.y + atrito)
+
+        return movimento
 
     def getVelocidade(self):
         return self.corpo.velocity
