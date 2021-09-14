@@ -1,8 +1,8 @@
 import sys
 from PyQt5.QtWidgets import QApplication
 
-from controle.controladorInterface import ControladorInterface
+from controle.controlador import Controlador
 
 app = QApplication(sys.argv)
-main = ControladorInterface()
+main = Controlador()
 app.exec_()

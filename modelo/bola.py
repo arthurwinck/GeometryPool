@@ -9,6 +9,16 @@ class Bola():
         self.corpo.velocity = velocidade,0
         self.cor = cor
 
+    def aplicar_atrito(self):
+        #TODO - ATUALIZAR DIAGRAMA COM NOVO MÉTODO
+        atrito = 0.1
+        if self.corpo.velocity.x > 0 and self.corpo.velocity.y > 0:
+            self.corpo.velocity = (self.corpo.velocity.x - atrito), (self.corpo.velocity.y - atrito)
+        elif self.corpo.velocity.x > 0 and self.corpo.velocity.y < 0:
+            self.corpo.velocity = (self.corpo.velocity.x - atrito), (self.corpo.velocity.y + atrito)
+        elif self.corpo.velocity.x < 0 and self.corpo.velocity.y < 0:
+            self.corpo.velocity = (self.corpo.velocity.x + atrito), (self.corpo.velocity.y + atrito)
+
     def getVelocidade(self):
         return self.corpo.velocity
 
