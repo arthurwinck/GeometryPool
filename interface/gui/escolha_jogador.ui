@@ -68,7 +68,7 @@
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="QLineEdit" name="lineEdit">
+       <widget class="QLineEdit" name="EJNomeJogador1">
         <property name="text">
          <string/>
         </property>
@@ -82,7 +82,7 @@
        </widget>
       </item>
       <item row="2" column="3">
-       <widget class="QLineEdit" name="lineEdit_2">
+       <widget class="QLineEdit" name="EJNomeJogador2">
         <property name="text">
          <string/>
         </property>
@@ -164,7 +164,7 @@
      <x>0</x>
      <y>0</y>
      <width>815</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
