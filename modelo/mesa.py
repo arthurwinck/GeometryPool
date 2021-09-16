@@ -21,7 +21,7 @@ class Mesa:
         self.space = pymunk.Space()
         self.space.gravity = 20,20
 
-        self.criar_limites()
+        self.criar_bordas()
 
         self.criar_bolas()
 
@@ -49,7 +49,7 @@ class Mesa:
             self.space.step(1/60)
 
     #TODO - ATUALIZAR DIAGRAMA
-    def criar_limites(self):
+    def criar_bordas(self):
         #instanciar os limites da mesa
         #Bordas da mesa, x0,y0 (esquerdo inferior); x1,y0 (direito inferior); x0,y1 (esquerdo superior) e x1,y1 (direito superior)
         #TODO - PROVAVELMENTE TERÁ QUE SER UM MÉTODO POR SI SÓ
