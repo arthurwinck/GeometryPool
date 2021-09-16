@@ -2,10 +2,14 @@ import pygame as py
 import pymunk
 
 class Cacapa():
-    def __init__(self, pontos):
-        self.corpo = pymunk.Body(body_type=pymunk.Body.STATIC)  
-        self.pontos = pontos
-        self.forma = pymunk.Poly(self.corpo, pontos)
+    def __init__(self, posicao, raio):
+        self.posicao = posicao
+        self.raio = raio
+        self.bolas = []
 
-    def getPosicao(self):
-        return self.pontos
+    def obterBolas(self):
+        return self.bolas
+    
+    #método no diagrama
+    def colisao(self):
+        pass

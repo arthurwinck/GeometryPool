@@ -5,6 +5,7 @@ import pymunk
 from .bola import Bola
 from .bolaPontos import BolaPontos
 from .borda import Borda
+from .cacapa import Cacapa
 from interface.telaMesa import TelaMesa
 
 class Mesa:
@@ -22,22 +23,7 @@ class Mesa:
 
         self.criar_limites()
 
-        #Instanciar os objetos necessários para o início do jogo
-        #Bola Branca sempre será a primeira bola da lista
-        bolaBranca = Bola(200, 200, 20, (255,255,255))
-        self.bolas.append(bolaBranca)
-        self.space.add(bolaBranca.corpo, bolaBranca.forma)
-        
-        #instanciando as 15 bolas vermelhas 
-        #TODO - Instanciar as bolas de outras cores 
-
-        for i in range(10):
-            #TODO - fazer matemática de criação de bolas (formato de triângulo)
-            bolaVermelha = BolaPontos(i*20 + 150, i*30 + 120, 0, (255,0,0), 5)
-            #bolaVermelha = BolaPontos(200, 200, 20, (255,0,0), 5)
-            self.bolas.append(bolaVermelha)
-            self.space.add(bolaVermelha.corpo, bolaVermelha.forma)
-        #criando o espaço físico da simulação, e adicionando as bolas nele
+        self.criar_bolas()
 
         self.inicializar()
 
@@ -72,34 +58,38 @@ class Mesa:
         x1 = x0 + self.telaMesa.tamX
         y1 = y0 + self.telaMesa.tamY
 
-        #TODO VOU TER QUE CRIAR UMA CLASSE PRA ISSO POR ENQUANTO ESTOU CRIANDO AQUI
-
-        # corpo = pymunk.Body(body_type=pymunk.Body.STATIC)
-        # pontos = [(x0,y0), (x1,y0)]
-        # borda1 = pymunk.Poly(corpo, pontos)
-
-        # corpo = pymunk.Body(body_type=pymunk.Body.STATIC)
-        # pontos = [(x0,y0), (x0,y1)]
-        # borda2 = pymunk.Poly(corpo, pontos)
-
-        # corpo = pymunk.Body(body_type=pymunk.Body.STATIC)
-        # pontos = [(x0,y1), (x1,y1)]
-        # borda3 = pymunk.Poly(corpo, pontos)
-
-        # corpo = pymunk.Body(body_type=pymunk.Body.STATIC)
-        # pontos = [(x1,y0), (x1,y1)]
-        # borda4 = pymunk.Poly(corpo, pontos)
-
         borda1 = Borda([(x0+24,y0), ((x0+x1)/2-20,y0)])
         borda2 = Borda([((x0+x1)/2+20,y0), (x1-24,y0)])
-        
         borda3 = Borda([(x0,y0+22), (x0,y1-22)])
-        
         borda4 = Borda([(x0+24,y1-5), ((x0+x1)/2-20,y1-5)])
         borda5 = Borda([((x0+x1)/2+20,y1-5), (x1-24,y1-5)])
-        
         borda6 = Borda([(x1-5,y0+22), (x1-5,y1-22)])
 
         self.limites = [borda1, borda2, borda3, borda4, borda5, borda6]
         for borda in self.limites:
             self.space.add(borda.corpo, borda.forma)
+
+    def criar_bolas(self):
+        #Instanciar os objetos necessários para o início do jogo
+        #Bola Branca sempre será a primeira bola da lista
+        bolaBranca = Bola(200, 200, 20, (255,255,255))
+        self.bolas.append(bolaBranca)
+        self.space.add(bolaBranca.corpo, bolaBranca.forma)
+        
+        #instanciando as 15 bolas vermelhas 
+        #TODO - Instanciar as bolas de outras cores 
+
+        for i in range(10):
+            #TODO - fazer matemática de criação de bolas (formato de triângulo)
+            bolaVermelha = BolaPontos(i*20 + 150, i*30 + 120, 0, (255,0,0), 5)
+            #bolaVermelha = BolaPontos(200, 200, 20, (255,0,0), 5)
+            self.bolas.append(bolaVermelha)
+            self.space.add(bolaVermelha.corpo, bolaVermelha.forma)
+        #criando o espaço físico da simulação, e adicionando as bolas nele
+
+    def criar_cacapas(self):
+
+        for i in range(3):
+            for j in range(2):
+                #Argumento é a posição das cacapas
+                Cacapa(((self.telaX - self.tamX)/2 + (self.tamX/2)*i, (self.telaY - self.tamY)/2 + (self.tamY)*j), 20)
