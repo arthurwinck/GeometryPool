@@ -19,7 +19,7 @@ class Mesa:
         self.telaMesa = TelaMesa(self.tela)
         self.clock = py.time.Clock()
         self.space = pymunk.Space()
-        self.space.gravity = 0,0
+        self.space.gravity = 20,20
 
         self.criar_limites()
 
