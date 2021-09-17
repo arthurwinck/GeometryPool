@@ -33,7 +33,7 @@ class Mesa:
     def criarBolas(self):
         #Instanciar os objetos necessários para o início do jogo
         #Bola Branca sempre será a primeira bola da lista
-        bolaBranca = Bola(200, 200, 20, (255,255,255))
+        bolaBranca = Bola(400, 200, 20, (255,255,255))
         self.bolas.append(bolaBranca)
         self.space.add(bolaBranca.corpo, bolaBranca.forma)
         
@@ -42,7 +42,7 @@ class Mesa:
 
         for i in range(10):
             #TODO - fazer matemática de criação de bolas (formato de triângulo)
-            bolaVermelha = BolaPontos(i*20 + 150, i*30 + 120, 0, (255,0,0), 5)
+            bolaVermelha = BolaPontos(i*50 + 150, i*30 + 120, 0, (255,0,0), 5)
             #bolaVermelha = BolaPontos(200, 200, 20, (255,0,0), 5)
             self.bolas.append(bolaVermelha)
             self.space.add(bolaVermelha.corpo, bolaVermelha.forma)
@@ -60,6 +60,15 @@ class Mesa:
 
         #Loop do jogo -- talvez tenha que estar na verdade na classe Mesa
         while True:
+
+            movimento = False
+
+            for bola in self.bolas:
+                mov = bola.aplicar_atrito()
+                if mov == True:
+                    movimento = True
+                
+
             mx, my = py.mouse.get_pos()
             bola_x, bola_y = self.bolas[0].getPosicao()
 
@@ -72,9 +81,9 @@ class Mesa:
                 if event.type == py.QUIT:
                     py.quit()
                     quit()
-                if event.type == py.MOUSEBUTTONDOWN:
+                if event.type == py.MOUSEBUTTONDOWN and movimento == False:
                     clicking = True
-                if event.type == py.MOUSEBUTTONUP:
+                if event.type == py.MOUSEBUTTONUP and movimento == False:
                     impulso_bola = taco.getForca(vec_x, vec_y)
 
                     # TODO: adicionar metodo na bola branca para impulso
@@ -83,17 +92,23 @@ class Mesa:
                     taco.reset()
                     clicking = False
 
-            if clicking:
+            if clicking and movimento == False:
                 taco.aumentarForca()
 
             self.telaMesa.superficie.fill((82,91,247))
             self.telaMesa.desenharMesa()
-            self.telaMesa.desenharBolas([self.bolas[0], self.bolas[0]])
-            self.telaMesa.desenharTaco(taco, vec_x, vec_y, bola_x, bola_y)
+            self.telaMesa.desenharBolas(self.bolas)
             self.telaMesa.desenharLimites(self.limites)
+            
+            if movimento == False:
+                self.telaMesa.desenharTaco(taco, vec_x, vec_y, bola_x, bola_y)
+            
+            
             self.tela.update()
             self.clock.tick(self.fps)
             self.space.step(1/self.fps)
+            
+            
 
     #TODO - ATUALIZAR DIAGRAMA
     def criarBordas(self, formato_mesa):
