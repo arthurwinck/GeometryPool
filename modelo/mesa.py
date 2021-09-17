@@ -9,6 +9,7 @@ from .borda import Borda
 from .cacapa import Cacapa
 from .taco import Taco
 from interface.telaMesa import TelaMesa
+from .jogador import Jogador
 
 class Mesa:
     def __init__(self):
@@ -22,16 +23,37 @@ class Mesa:
         self.telaMesa = TelaMesa(self.tela)
         self.clock = py.time.Clock()
         self.space = pymunk.Space()
-        self.space.gravity = 20,20
 
-        self.criar_bordas()
+        #self.space.gravity = 20,20
+        self.criarBolas()
 
-        self.criar_bolas()
+    def iniciarJogadores(self, nomes_jogadores):
+        pass
 
-        self.inicializar()
+    def criarBolas(self):
+        #Instanciar os objetos necessários para o início do jogo
+        #Bola Branca sempre será a primeira bola da lista
+        bolaBranca = Bola(200, 200, 20, (255,255,255))
+        self.bolas.append(bolaBranca)
+        self.space.add(bolaBranca.corpo, bolaBranca.forma)
+        
+        #instanciando as 15 bolas vermelhas 
+        #TODO - Instanciar as bolas de outras cores 
+
+        for i in range(10):
+            #TODO - fazer matemática de criação de bolas (formato de triângulo)
+            bolaVermelha = BolaPontos(i*20 + 150, i*30 + 120, 0, (255,0,0), 5)
+            #bolaVermelha = BolaPontos(200, 200, 20, (255,0,0), 5)
+            self.bolas.append(bolaVermelha)
+            self.space.add(bolaVermelha.corpo, bolaVermelha.forma)
+        #criando o espaço físico da simulação, e adicionando as bolas nele
 
     #TODO - ATUALIZAR DIAGRAMA
-    def inicializar(self):
+    def inicializar(self, configuracoes_jogo):
+
+        self.criarCacapas(configuracoes_jogo[1])
+        self.criarBordas(configuracoes_jogo[0])
+
         #Loop do jogo -- talvez tenha que estar na verdade na classe Mesa
         taco = Taco()
         clicking = False
@@ -68,12 +90,13 @@ class Mesa:
             self.telaMesa.desenharMesa()
             self.telaMesa.desenharBolas([self.bolas[0], self.bolas[0]])
             self.telaMesa.desenharTaco(taco, vec_x, vec_y, bola_x, bola_y)
+            self.telaMesa.desenharLimites(self.limites)
             self.tela.update()
             self.clock.tick(self.fps)
             self.space.step(1/self.fps)
 
     #TODO - ATUALIZAR DIAGRAMA
-    def criar_bordas(self):
+    def criarBordas(self, formato_mesa):
         #instanciar os limites da mesa
         #Bordas da mesa, x0,y0 (esquerdo inferior); x1,y0 (direito inferior); x0,y1 (esquerdo superior) e x1,y1 (direito superior)
         #TODO - PROVAVELMENTE TERÁ QUE SER UM MÉTODO POR SI SÓ
@@ -93,27 +116,13 @@ class Mesa:
         for borda in self.limites:
             self.space.add(borda.corpo, borda.forma)
 
-    def criar_bolas(self):
-        #Instanciar os objetos necessários para o início do jogo
-        #Bola Branca sempre será a primeira bola da lista
-        bolaBranca = Bola(200, 200, 20, (255,255,255))
-        self.bolas.append(bolaBranca)
-        self.space.add(bolaBranca.corpo, bolaBranca.forma)
-        
-        #instanciando as 15 bolas vermelhas 
-        #TODO - Instanciar as bolas de outras cores 
-
-        for i in range(10):
-            #TODO - fazer matemática de criação de bolas (formato de triângulo)
-            bolaVermelha = BolaPontos(i*20 + 150, i*30 + 120, 0, (255,0,0), 5)
-            #bolaVermelha = BolaPontos(200, 200, 20, (255,0,0), 5)
-            self.bolas.append(bolaVermelha)
-            self.space.add(bolaVermelha.corpo, bolaVermelha.forma)
-        #criando o espaço físico da simulação, e adicionando as bolas nele
-
-    def criar_cacapas(self):
+    def criarCacapas(self, numero_cacapas):
 
         for i in range(3):
             for j in range(2):
                 #Argumento é a posição das cacapas
-                Cacapa(((self.telaX - self.tamX)/2 + (self.tamX/2)*i, (self.telaY - self.tamY)/2 + (self.tamY)*j), 20)
+                Cacapa(((self.telaMesa.telaX - self.telaMesa.tamX)/2 + (self.telaMesa.tamX/2)*i, (self.telaMesa.telaY - self.telaMesa.tamY)/2 + (self.telaMesa.tamY)*j), 20)
+
+
+
+

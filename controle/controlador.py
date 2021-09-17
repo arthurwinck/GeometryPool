@@ -50,7 +50,19 @@ class Controlador(QObject):
             
     #Ao apertar o botão de começar no layout de escolha de mesa, inicia-se o jogo (pygame)
     def iniciarJogo(self):
+        nomeJogador1 = self.escolha_jogador.EJNomeJogador1.text()
+        nomeJogador2 = self.escolha_jogador.EJNomeJogador2.text()
+
+        nomes_jogadores = [nomeJogador1, nomeJogador2]
+        
+        formatoMesa = self.escolha_mesa.formatoMesa
+        numeroCacapa = self.escolha_mesa.numeroCacapa
+
+        configuracoes_jogo = [formatoMesa, numeroCacapa]
+
         self.mesa = Mesa()
+        self.mesa.iniciarJogadores(nomes_jogadores)
+        self.mesa.inicializar(configuracoes_jogo)
 
     #Ao sair do jogo, encerra-se a execução
     def sair(self):

@@ -13,6 +13,57 @@ class EscolhaMesa(QMainWindow):
         self.EMbuttonVoltar.clicked.connect(self.voltar)
         self.EMbuttonComecar.clicked.connect(self.iniciar_jogo)
 
+        self.formatoMesa = "Retangular"
+        self.numeroCacapa = 4
+        
+        self.listaMesa = ["Retangular", "Quadrado"]
+        self.indexMesa = 0
+        self.listaCacapas = [4,6]
+        self.indexCacapa = 0
+
+        self.anteriorMesa.clicked.connect(self.atualizarMesaAnterior)
+        self.proximoMesa.clicked.connect(self.atualizarMesaProximo)
+
+        self.anteriorBuraco.clicked.connect(self.atualizarBuracoAnterior)
+        self.proximoBuraco.clicked.connect(self.atualizarBuracoProximo)
+
+    def atualizarMesaAnterior(self):
+        if self.indexMesa - 1 < 0:
+            self.indexMesa = 0
+        else:
+            self.indexMesa -= 1
+
+        self.formatoMesa = self.listaMesa[self.indexMesa]
+        self.textoFormato.setText(f"{self.formatoMesa}")
+        
+            
+    def atualizarMesaProximo(self):
+        if self.indexMesa + 1 > len(self.listaMesa) - 1:
+            self.indexMesa = len(self.listaMesa) - 1
+        else:
+            self.indexMesa += 1
+
+        self.formatoMesa = self.listaMesa[self.indexMesa]
+        self.textoFormato.setText(f"{self.formatoMesa}")
+
+    def atualizarBuracoAnterior(self):
+        if self.indexCacapa - 1 < 0:
+            self.indexCacapa = 0
+        else:
+            self.indexCacapa -= 1
+
+        self.numeroCacapa = self.listaCacapas[self.indexCacapa]
+        self.textoCacapa.setText(f"{self.numeroCacapa}")
+
+    def atualizarBuracoProximo(self):
+        if self.indexCacapa + 1 > len(self.listaCacapas) - 1:
+            self.indexCacapa = len(self.listaCacapas) - 1
+        else:
+            self.indexCacapa += 1
+
+        self.numeroCacapa = self.listaCacapas[self.indexCacapa]
+        self.textoCacapa.setText(f"{self.numeroCacapa}")
+
     def voltar(self):
         self.widget.setCurrentIndex(0)
 
