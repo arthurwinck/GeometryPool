@@ -1,6 +1,7 @@
 from pygame.sprite import Sprite
 #Será que precisa importar pygame inteiro?
 import pygame as py
+import numpy as np
 
 class TelaMesa(Sprite):
     #TODO - ATUALIZAR DIAGRAMA PARA PARAMETRO DISPLAY
@@ -44,3 +45,15 @@ class TelaMesa(Sprite):
                 py.draw.rect(self.superficie, (255,248,220), (pontos[0][0], pontos[0][1], 5, pontos[1][1] - pontos[0][1] ))
             else:
                 py.draw.rect(self.superficie, (255,248,220), (pontos[0][0], pontos[0][1], 5, pontos[1][1] - pontos[0][1] ))
+
+    def desenharTaco(self, taco, vec_x, vec_y, bola_x, bola_y):
+        angle = np.arctan2(vec_x, vec_y)
+
+        rotated_taco = py.transform.rotate(taco.taco_img, np.degrees(angle) - 90)
+
+        taco_rect = rotated_taco.get_rect(center=(
+            bola_x - vec_x * taco.forca_taco * 10 - 380 * vec_x,
+            bola_y - vec_y * taco.forca_taco * 10 - 380 * vec_y,
+        ))
+
+        self.superficie.blit(rotated_taco, taco_rect)

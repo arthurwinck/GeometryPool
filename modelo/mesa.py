@@ -1,4 +1,5 @@
 import pygame as py
+import numpy as np
 import pymunk
 
 #imports dos modelos
@@ -6,6 +7,7 @@ from .bola import Bola
 from .bolaPontos import BolaPontos
 from .borda import Borda
 from .cacapa import Cacapa
+from .taco import Taco
 from interface.telaMesa import TelaMesa
 
 class Mesa:
@@ -15,6 +17,7 @@ class Mesa:
         
         self.tela = py.display
         self.tela.set_caption('Geometry Pool')
+        self.fps = 60
 
         self.telaMesa = TelaMesa(self.tela)
         self.clock = py.time.Clock()
@@ -30,23 +33,44 @@ class Mesa:
     #TODO - ATUALIZAR DIAGRAMA
     def inicializar(self):
         #Loop do jogo -- talvez tenha que estar na verdade na classe Mesa
+        taco = Taco()
+        clicking = False
+
+        #Loop do jogo -- talvez tenha que estar na verdade na classe Mesa
         while True:
+            mx, my = py.mouse.get_pos()
+            bola_x, bola_y = self.bolas[0].getPosicao()
+
+            # linalg stuff, talvez separar em outro lugar?
+            vec_x, vec_y = bola_x - mx, bola_y - my
+            vec_len = np.sqrt(vec_x ** 2 + vec_y**2)
+            vec_x, vec_y = vec_x / vec_len, vec_y / vec_len
+
             for event in py.event.get():
                 if event.type == py.QUIT:
                     py.quit()
                     quit()
+                if event.type == py.MOUSEBUTTONDOWN:
+                    clicking = True
+                if event.type == py.MOUSEBUTTONUP:
+                    impulso_bola = taco.getForca(vec_x, vec_y)
 
+                    # TODO: adicionar metodo na bola branca para impulso
+                    self.bolas[0].corpo.apply_force_at_local_point(impulso_bola)
+
+                    taco.reset()
+                    clicking = False
+
+            if clicking:
+                taco.aumentarForca()
+
+            self.telaMesa.superficie.fill((82,91,247))
             self.telaMesa.desenharMesa()
-            
-            for bola in self.bolas:
-                movimento = bola.aplicar_atrito()
-
-            self.telaMesa.desenharBolas(self.bolas)
-            self.telaMesa.desenharLimites(self.limites)
-
+            self.telaMesa.desenharBolas([self.bolas[0], self.bolas[0]])
+            self.telaMesa.desenharTaco(taco, vec_x, vec_y, bola_x, bola_y)
             self.tela.update()
-            self.clock.tick(60)
-            self.space.step(1/60)
+            self.clock.tick(self.fps)
+            self.space.step(1/self.fps)
 
     #TODO - ATUALIZAR DIAGRAMA
     def criar_bordas(self):
