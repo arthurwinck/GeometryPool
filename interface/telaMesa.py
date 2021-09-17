@@ -1,6 +1,7 @@
 from pygame.sprite import Sprite
 #Será que precisa importar pygame inteiro?
 import pygame as py
+import numpy as np
 
 class TelaMesa(Sprite):
     def __init__(self, superficie):
@@ -28,4 +29,16 @@ class TelaMesa(Sprite):
             pos_x, pos_y = bola.getPosicao()
             vel_x, vel_y = bola.getVelocidade()
             
-            py.draw.circle(self.superficie, bola.cor, (pos_x,pos_y), 15)   
+            py.draw.circle(self.superficie, bola.cor, (pos_x,pos_y), 15)
+
+    def desenharTaco(self, taco, vec_x, vec_y, bola_x, bola_y):
+        angle = np.arctan2(vec_x, vec_y)
+
+        rotated_taco = py.transform.rotate(taco.taco_img, np.degrees(angle) - 90)
+
+        taco_rect = rotated_taco.get_rect(center=(
+            bola_x - vec_x * taco.forca_taco * 10 - 380 * vec_x,
+            bola_y - vec_y * taco.forca_taco * 10 - 380 * vec_y,
+        ))
+
+        self.superficie.blit(rotated_taco, taco_rect)
