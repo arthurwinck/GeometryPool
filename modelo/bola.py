@@ -5,13 +5,14 @@ class Bola():
     def __init__(self, x,y, velocidade, cor):
         self.corpo = pymunk.Body(1,1)   
         self.corpo.position = (x,y)
-        self.forma = pymunk.Circle(self.corpo, 15)
+        self.raio = 15
+        self.forma = pymunk.Circle(self.corpo, self.raio)
         self.forma.elasticity = 0.5
         self.corpo.velocity = velocidade,0
         self.cor = cor
         self.movimento = False
 
-    def aplicar_atrito(self):
+    def aplicarAtrito(self):
         # Método para aplicar o atrito de uma maneira top-down (não existe no pymunk)
         # Estabelecendo um atrito, podemos parar a a movimentação se a velocidade for minúscula
         atrito = 0.99

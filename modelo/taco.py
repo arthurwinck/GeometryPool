@@ -1,7 +1,7 @@
 import pygame as py
 import pymunk
 
-MULTIPLICADOR_FORCA = 1500
+MULTIPLICADOR_FORCA = 1800
 
 class Taco():
     def __init__(self):

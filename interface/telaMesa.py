@@ -26,6 +26,14 @@ class TelaMesa(Sprite):
             for j in range(2):
                 py.draw.circle(self.superficie, self.green, ((self.telaX - self.tamX)/2 + (self.tamX/2)*i, (self.telaY - self.tamY)/2 + (self.tamY)*j), 20)
 
+    def desenharJogadores(self, jogadores):
+        #Desenhar na tela os pontos e os jogadores
+        fonte_jogo = py.font.SysFont('timesnewroman.ttf', 32)
+        jogador1  = fonte_jogo.render(f'{jogadores[0].nome}', True, self.green, (0,0,0))
+        jogador2 = fonte_jogo.render(f'{jogadores[1].nome}', True, self.green, (0,0,0))
+
+        return [jogador1, jogador2]
+
     def desenharBolas(self, bolas):
         for bola in bolas:
             pos_x, pos_y = bola.getPosicao()

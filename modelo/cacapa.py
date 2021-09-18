@@ -11,5 +11,9 @@ class Cacapa():
         return self.bolas
     
     #método no diagrama
-    def colisao(self):
-        pass
+    def ChecarColisao(self, bolas):
+        for bola in bolas:
+            distancia = (self.posicao[0] - bola.corpo.position.x)**2 + (self.posicao[1] - bola.corpo.position.y)**2
+
+            if distancia + 10 < bola.raio or distancia - 10 < bola.raio:
+                return bola
