@@ -120,14 +120,27 @@ class Mesa:
         x1 = x0 + self.telaMesa.tamX
         y1 = y0 + self.telaMesa.tamY
 
-        borda1 = Borda([(x0+24,y0), ((x0+x1)/2-20,y0)])
-        borda2 = Borda([((x0+x1)/2+20,y0), (x1-24,y0)])
-        borda3 = Borda([(x0,y0+22), (x0,y1-22)])
-        borda4 = Borda([(x0+24,y1-5), ((x0+x1)/2-20,y1-5)])
-        borda5 = Borda([((x0+x1)/2+20,y1-5), (x1-24,y1-5)])
-        borda6 = Borda([(x1-5,y0+22), (x1-5,y1-22)])
+        formatos = {
+            "Retangular": [
+                Borda([(x0+24,y0), ((x0+x1)/2-20,y0)]),
+                Borda([((x0+x1)/2+20,y0), (x1-24,y0)]),
+                Borda([(x0,y0+22), (x0,y1-22)]),
+                Borda([(x0+24,y1-5), ((x0+x1)/2-20,y1-5)]),
+                Borda([((x0+x1)/2+20,y1-5), (x1-24,y1-5)]),
+                Borda([(x1-5,y0+70), (x1-5,y1-22)]),
+            ],
+            "Quadrado": [
+                Borda([(x0+24,y0), ((x0+x1)/2-20,y0)]),
+                Borda([((x0+x1)/2+20,y0), (x1-24,y0)]),
+                Borda([(x0,y0+22), (x0,y1-22)]),
+                Borda([(x0+24,y1-5), ((x0+x1)/2-20,y1-5)]),
+                Borda([((x0+x1)/2+20,y1-5), (x1-24,y1-5)]),
+                Borda([(x1-5,y0+70), (x1-5,y1-22)]),
+            ]
+        }
 
-        self.limites = [borda1, borda2, borda3, borda4, borda5, borda6]
+        self.limites = formatos.get(formato_mesa)
+
         for borda in self.limites:
             self.space.add(borda.corpo, borda.forma)
 
