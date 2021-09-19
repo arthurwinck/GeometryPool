@@ -150,8 +150,7 @@ class Mesa:
             self.telaMesa.desenharMesa()
             self.telaMesa.desenharBolas(self.bolas)
             self.telaMesa.desenharLimites(self.limites)
-            self.telaMesa.superficie.blit(texto_jogadores[0], textRect1)
-            self.telaMesa.superficie.blit(texto_jogadores[1], textRect2)
+            self.telaMesa.desenharJogadores(self.jogadores)
 
 
             if movimento == False:

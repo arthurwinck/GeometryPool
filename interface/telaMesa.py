@@ -26,11 +26,36 @@ class TelaMesa(Sprite):
             for j in range(2):
                 py.draw.circle(self.superficie, self.green, ((self.telaX - self.tamX)/2 + (self.tamX/2)*i, (self.telaY - self.tamY)/2 + (self.tamY)*j), 20)
 
+
+    #TODO - Atualizar Diagrama
     def desenharJogadores(self, jogadores):
         #Desenhar na tela os pontos e os jogadores
-        fonte_jogo = py.font.SysFont('timesnewroman.ttf', 32)
-        jogador1  = fonte_jogo.render(f'{jogadores[0].nome}', True, self.green, (0,0,0))
-        jogador2 = fonte_jogo.render(f'{jogadores[1].nome}', True, self.green, (0,0,0))
+        fonte_jogo = py.font.Font('freesansbold.ttf', 28)
+
+        if jogadores[0].nome == "":
+            jogNome1 = "Jogador1"
+        else:
+            jogNome1 = jogadores[0].nome
+
+        if jogadores[1].nome == "":
+            jogNome2 = "Jogador2"
+        else:
+            jogNome2 = jogadores[0].nome[1]
+
+        jogador1  = fonte_jogo.render(f'{jogNome1}', True, self.green, (0,0,0))
+        pontosJogador1 = fonte_jogo.render(f'Pontos: {jogadores[0].pontos}', True, self.green, (0,0,0))
+
+        jogador2 = fonte_jogo.render(f'{jogNome2}', True, self.green, (0,0,0))
+        pontosJogador2 = fonte_jogo.render(f'Pontos: {jogadores[1].pontos}', True, self.green, (0,0,0))
+
+
+        self.superficie.blit(jogador1, (10,10))
+        self.superficie.blit(pontosJogador1, (10,50))
+
+
+        self.superficie.blit(jogador2, (200,10))
+        self.superficie.blit(pontosJogador2, (200,50))
+
 
         return [jogador1, jogador2]
 
