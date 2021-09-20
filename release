@@ -1,0 +1,7 @@
+/* Instruções de uso */
+ - Instale o python3
+ - Instale as bibliotecas em requeriments.txt
+ Para abrir execute o arquivo app.py com o python3.
+
+/* Limitações da versão */
+ Apesar do programa ter suporte a estilos diferentes de mesas e caçapas, nossa entrega não implementou efetivamente esses estilos diferentes.
