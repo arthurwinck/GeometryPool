@@ -12,13 +12,14 @@ class EscolhaMesa(QMainWindow):
         
         self.EMbuttonVoltar.clicked.connect(self.voltar)
         self.EMbuttonComecar.clicked.connect(self.iniciar_jogo)
+        self.EMbuttonAleatorio.clicked.connect(self.iniciar_aleatorio)
 
         self.formatoMesa = "Retangular"
         self.numeroCacapa = 4
         
-        self.listaMesa = ["Retangular", "Quadrado"]
+        self.listaMesa = ["Retangular", "Quadrado <Não funcional>"]
         self.indexMesa = 0
-        self.listaCacapas = [4,6]
+        self.listaCacapas = [6]
         self.indexCacapa = 0
 
         self.anteriorMesa.clicked.connect(self.atualizarMesaAnterior)
@@ -69,3 +70,8 @@ class EscolhaMesa(QMainWindow):
 
     def iniciar_jogo(self):
         self.sinal_iniciar.emit()
+
+    def iniciar_aleatorio(self):
+        self.formatoMesa = "Retangular"
+        self.numeroCacapa = 6
+        self.iniciar_jogo()

@@ -63,8 +63,9 @@ class Controlador(QObject):
         self.mesa = Mesa()
         self.mesa.iniciarJogadores(nomes_jogadores)
         self.mesa.inicializar(configuracoes_jogo)
+        self.widget.setCurrentIndex(0)
 
     #Ao sair do jogo, encerra-se a execução
     def sair(self):
-        self.close()
+        exit(0)
         
