@@ -375,8 +375,8 @@ class Mesa:
                             self.trocarTurnoJogadores()
                     
                     else:
-                        bolas = jogador.obterBolas()
-                        pontos = self.calculaPontosJogador(bolas)
+                        bola = jogador.obterBolaTocada()
+                        pontos = self.calculaPontosJogador([bola])
                         jogador2 = self.obterProximoJogador()
                         jogador2.adicionarPontos(pontos)
                         print(f'adicionou {pontos} oponente')
