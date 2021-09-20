@@ -305,11 +305,14 @@ class Mesa:
                 if bola_colisao != None:
 
                     jogador.bolas.append(bola_colisao)
-                    self.bolas.remove(bola_colisao)
                     print('removeu bolas')
                 
                     if isinstance(bola_colisao, BolaPontos):
                         jogador.setFezPontos()
+                        self.bolas.remove(bola_colisao)
+                    else:
+                        self.bolas[0].corpo.position = 400, 200
+                        self.bolas[0].corpo.velocity = 0, 0
 
             algum_movimento = any([bola.aplicarAtrito() for bola in self.bolas])
                 
@@ -376,10 +379,12 @@ class Mesa:
                     
                     else:
                         bola = jogador.obterBolaTocada()
-                        pontos = self.calculaPontosJogador([bola])
-                        jogador2 = self.obterProximoJogador()
-                        jogador2.adicionarPontos(pontos)
-                        print(f'adicionou {pontos} oponente')
+                        if bola:
+                            pontos = self.calculaPontosJogador([bola])
+                            jogador2 = self.obterProximoJogador()
+                            jogador2.adicionarPontos(pontos)
+                            print(f'adicionou {pontos} oponente')
+
                         self.trocarTurnoJogadores()
                         print('trocou jogada invalida')
 
