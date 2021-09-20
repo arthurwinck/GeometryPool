@@ -25,6 +25,9 @@ class Jogador():
     def setJogadaInvalida(self):
         self.jogadaValida = False
 
+    def setJogadaValida(self):
+        self.jogadaValida = True
+
     def setFezPontos(self):
         self.fezPontos = True
         
@@ -55,7 +58,7 @@ class Jogador():
         self.jogadaValida = True
         self.bolas = []
         self.vencedor = False
-        
+        self.bolaTocada = None
 
     def inverteBolaVermelha(self):
         if self.bolaVermelha == True:

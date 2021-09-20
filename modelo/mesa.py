@@ -13,6 +13,8 @@ from .taco import Taco
 from interface.telaMesa import TelaMesa
 from .jogador import Jogador
 
+import time
+
 class Mesa:
     def __init__(self):
         py.init()
@@ -114,9 +116,11 @@ class Mesa:
         bolas = jogador.obterBolas()
 
         branca = self.verificarBolaBrancaEncacapada(bolas)
+        print('verificar jogada')
 
         if branca:
             jogador.setJogadaInvalida()
+            print('encacapou branca')
             return False
         
         else:
@@ -126,6 +130,7 @@ class Mesa:
 
             if bolaTocada == None:
                 jogador.setJogadaInvalida()
+                print('nao tocou nenhuma bola')
                 return False
 
             if bolaTocada.getValor() == 5 and bolaVermelha:
@@ -138,6 +143,7 @@ class Mesa:
 
             else:
                 jogador.setJogadaInvalida()
+                print('encacapou erraad')
                 return False
 
     def obterTodasCacapas(self):
@@ -198,7 +204,7 @@ class Mesa:
     def criarBolas(self):
         #Instanciar os objetos necessários para o início do jogo
         #Bola Branca sempre será a primeira bola da lista
-        bolaBranca = Bola(400, 200, 20, (255,255,255))
+        bolaBranca = Bola(400, 200, 0, (255,255,255))
         self.bolas.append(bolaBranca)
         self.space.add(bolaBranca.corpo, bolaBranca.forma)
         
@@ -269,19 +275,22 @@ class Mesa:
 
 
         #taco = Taco()
-        
-        jogador = self.obterJogadorDaVez()
-        taco = jogador.obterTaco()
 
         clicking = False
+        movimento = False
+        jogada = False
 
         #Loop do jogo -- talvez tenha que estar na verdade na classe Mesa
         while True:
 
+            jogador = self.obterJogadorDaVez()
+            taco = jogador.obterTaco()
+
             bola = self.bolas[0].checarColisao(self.bolas)
             
             if bola != None:
-                jogador.salvarBolaTocadaJogador()
+                print('TOCOU!!!!', jogador.nome)
+                jogador.salvarBolaTocadaJogador(bola)
 
             for cacapa in self.cacapas:
                 bola_colisao = cacapa.ChecarColisao(self.bolas)
@@ -294,17 +303,14 @@ class Mesa:
                     if isinstance(bola_colisao, BolaPontos):
                         jogador.setFezPontos()
 
-            movimento = False
-            jogada = False
-
-
-            for bola in self.bolas:
-                mov = bola.aplicarAtrito()
-                if mov == True:
-                    movimento = True
-                    jogada = True
+            algum_movimento = any([bola.aplicarAtrito() for bola in self.bolas])
                 
-
+            if algum_movimento:
+                movimento = True
+                jogada = True
+            else:
+                movimento = False
+                
             mx, my = py.mouse.get_pos()
             vetorTaco = self.definirAnguloTaco((mx,my))
 
@@ -331,17 +337,18 @@ class Mesa:
             self.telaMesa.desenharLimites(self.limites)
             self.telaMesa.desenharJogadores(self.jogadores)
 
-            print(f"movimento: {movimento} jogada: {jogada} jogador: {jogador.nome}")
-
             #Parada no movimento causa possibilidade de realizar jogada
+            
             if movimento == False:
                 bola_x, bola_y = self.bolas[0].getPosicao()
                 self.telaMesa.desenharTaco(taco, vetorTaco[0], vetorTaco[1], bola_x, bola_y)
-
+                
                 if jogada == True:
                     jogada = False
 
+                    
                     jogadaValida = self.verificarJogada()
+                    print('checou jogada')
 
                     if jogadaValida:
                         fezPontos = jogador.obterFezPontos()
@@ -349,12 +356,13 @@ class Mesa:
                         if fezPontos:
                             bolas = jogador.obterBolas()
                             pontos = self.calculaPontosJogador(bolas)
-                            jogador.AdicionarPontos(pontos)
+                            jogador.adicionarPontos(pontos)
 
                             jogador.inverteBolaVermelha()
                             jogador.inverteBolaNumerada()
 
                         else:
+                            print('trocou nao fez pontos')
                             self.trocarTurnoJogadores()
                     
                     else:
@@ -362,7 +370,9 @@ class Mesa:
                         pontos = self.calculaPontosJogador(bolas)
                         jogador2 = self.obterProximoJogador()
                         jogador2.adicionarPontos(pontos)
+                        print(f'adicionou {pontos} oponente')
                         self.trocarTurnoJogadores()
+                        print('trocou jogada invalida')
 
                     vencedor = self.verificarVencedor()
 
