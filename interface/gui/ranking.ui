@@ -54,7 +54,7 @@
          <item>
           <widget class="QLabel" name="label_9">
            <property name="text">
-            <string>650</string>
+            <string>147</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -68,7 +68,7 @@
          <item>
           <widget class="QLabel" name="label_6">
            <property name="text">
-            <string>Jogador1</string>
+            <string>Leo</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -78,7 +78,7 @@
          <item>
           <widget class="QLabel" name="label_7">
            <property name="text">
-            <string>650</string>
+            <string>143</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -92,7 +92,7 @@
          <item>
           <widget class="QLabel" name="label_2">
            <property name="text">
-            <string>Jogador1</string>
+            <string>ABCDEF</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -102,7 +102,7 @@
          <item>
           <widget class="QLabel" name="label_3">
            <property name="text">
-            <string>650</string>
+            <string>136</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
