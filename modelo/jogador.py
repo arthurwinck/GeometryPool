@@ -76,6 +76,7 @@ class Jogador():
 
     def setBolaNumerada(self):
         self.bolaNumerada = True
+        self.bolaVermelha = False
 
     def salvarBolaTocadaJogador(self, bola):
         if (self.bolaTocada == None):
