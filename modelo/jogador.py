@@ -59,8 +59,8 @@ class Jogador():
         self.bolas = []
         self.vencedor = False
         self.bolaTocada = None
-        self.bolaVermelha = True
         self.bolaNumerada = False
+        self.bolaVermelha = True
 
     def inverteBolaVermelha(self):
         if self.bolaVermelha == True:
@@ -73,6 +73,9 @@ class Jogador():
             self.bolaNumerada = False
         else:
             self.bolaNumerada = True
+
+    def setBolaNumerada(self):
+        self.bolaNumerada = True
 
     def salvarBolaTocadaJogador(self, bola):
         if (self.bolaTocada == None):

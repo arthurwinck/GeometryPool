@@ -195,6 +195,10 @@ class Mesa:
         else:
             self.jogadores[1].passarTurno()
             self.jogadores[0].setTurnoJogador()
+        if (len(self.bolas) == 2):
+            self.jogadores[0].setBolaNumerada()
+            self.jogadores[1].setBolaNumerada()
+
 
     def calculaPontosJogador(self, bolas):
         pontos = 0
@@ -367,7 +371,6 @@ class Mesa:
 
                     jogador.bolas.append(bola_colisao)
                     #print('removeu bolas')
-                
                     if isinstance(bola_colisao, BolaPontos):
                         jogador.setFezPontos()
                         self.bolas.remove(bola_colisao)
