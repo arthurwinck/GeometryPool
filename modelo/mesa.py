@@ -213,7 +213,7 @@ class Mesa:
 
         for i in range(10):
             #TODO - fazer matemática de criação de bolas (formato de triângulo)
-            bolaVermelha = BolaPontos(i*50 + 150, i*30 + 120, 0, (255,0,0), 5)
+            bolaVermelha = BolaPontos(i*50 + 250, i*30 + 200, 0, (255,0,0), 5)
             #bolaVermelha = BolaPontos(200, 200, 20, (255,0,0), 5)
             self.bolas.append(bolaVermelha)
             self.space.add(bolaVermelha.corpo, bolaVermelha.forma)
@@ -299,6 +299,7 @@ class Mesa:
 
                     jogador.bolas.append(bola_colisao)
                     self.bolas.remove(bola_colisao)
+                    print('removeu bolas')
                 
                     if isinstance(bola_colisao, BolaPontos):
                         jogador.setFezPontos()
@@ -357,6 +358,7 @@ class Mesa:
                             bolas = jogador.obterBolas()
                             pontos = self.calculaPontosJogador(bolas)
                             jogador.adicionarPontos(pontos)
+                            print(f'jogador recebeu {pontos} pontos')
 
                             jogador.inverteBolaVermelha()
                             jogador.inverteBolaNumerada()
