@@ -3,6 +3,9 @@ from pygame.sprite import Sprite
 import pygame as py
 import numpy as np
 
+def texto_bola(is_bola_vermelha):
+    return "Vermelha" if is_bola_vermelha else "Numerada"
+
 class TelaMesa(Sprite):
     #TODO - ATUALIZAR DIAGRAMA PARA PARAMETRO DISPLAY
     #TODO - ATUALIZAR DIAGRAMA PARA RETIRAR RECT?
@@ -50,12 +53,14 @@ class TelaMesa(Sprite):
             jogador2 = fonte_jogo.render(f'{jogNome2}', True, self.green, (0,0,0))
             pontosJogador2 = fonte_jogo.render(f'Pontos: {jogadores[1].pontos}', True, self.green, (0,0,0))
             
+
+
             if jogadores[0].bolaVermelha:
-                bolaJogador1 = fonte_jogo.render(f'Bola: Vermelha', True, self.red, (0,0,0))
-                bolaJogador2 = fonte_jogo.render(f'Bola: Numerada', True, self.green, (0,0,0))
+                bolaJogador1 = fonte_jogo.render(f'Bola: {texto_bola(jogadores[0].bolaVermelha)}', True, self.red, (0,0,0))
+                bolaJogador2 = fonte_jogo.render(f'Bola: {texto_bola(jogadores[1].bolaVermelha)}', True, self.green, (0,0,0))
             else:
-                bolaJogador1 = fonte_jogo.render(f'Bola: Numerada', True, self.red, (0,0,0))
-                bolaJogador2 = fonte_jogo.render(f'Bola: Vermelha', True, self.green, (0,0,0))
+                bolaJogador1 = fonte_jogo.render(f'Bola: {texto_bola(jogadores[0].bolaVermelha)}', True, self.red, (0,0,0))
+                bolaJogador2 = fonte_jogo.render(f'Bola: {texto_bola(jogadores[1].bolaVermelha)}', True, self.green, (0,0,0))
         else:
             jogador1  = fonte_jogo.render(f'{jogNome1}', True, self.green, (0,0,0))
             pontosJogador1 = fonte_jogo.render(f'Pontos: {jogadores[0].pontos}', True, self.green, (0,0,0))
@@ -64,11 +69,11 @@ class TelaMesa(Sprite):
             pontosJogador2 = fonte_jogo.render(f'Pontos: {jogadores[1].pontos}', True, self.red, (0,0,0))
 
             if jogadores[0].bolaVermelha:
-                bolaJogador1 = fonte_jogo.render(f'Bola: Vermelha', True, self.green, (0,0,0))
-                bolaJogador2 = fonte_jogo.render(f'Bola: Numerada', True, self.red, (0,0,0))
+                bolaJogador1 = fonte_jogo.render(f'Bola: {texto_bola(jogadores[0].bolaVermelha)}', True, self.green, (0,0,0))
+                bolaJogador2 = fonte_jogo.render(f'Bola: {texto_bola(jogadores[1].bolaVermelha)}', True, self.red, (0,0,0))
             else:
-                bolaJogador1 = fonte_jogo.render(f'Bola: Numerada', True, self.green, (0,0,0))
-                bolaJogador2 = fonte_jogo.render(f'Bola: Vermelha', True, self.red, (0,0,0))
+                bolaJogador1 = fonte_jogo.render(f'Bola: {texto_bola(jogadores[0].bolaVermelha)}', True, self.green, (0,0,0))
+                bolaJogador2 = fonte_jogo.render(f'Bola: {texto_bola(jogadores[1].bolaVermelha)}', True, self.red, (0,0,0))
 
         self.superficie.blit(jogador1, (10,10))
         self.superficie.blit(pontosJogador1, (110,10))

@@ -128,6 +128,13 @@ class Mesa:
             bolaVermelha = jogador.obterBolaVermelha()
             bolaNumerada = jogador.obterBolaNumerada()
 
+            print('bolaVermelha: ', bolaVermelha)
+            print('bolaNumerada: ', bolaNumerada)
+
+            if bolaTocada:
+                print('bolaTocada: ', bolaTocada.getValor())
+
+
             if bolaTocada == None:
                 jogador.setJogadaInvalida()
                 print('nao tocou nenhuma bola')
