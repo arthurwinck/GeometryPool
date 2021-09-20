@@ -121,6 +121,7 @@ class Mesa:
         if branca:
             jogador.setJogadaInvalida()
             print('encacapou branca')
+            jogador.adicionarPontos(-5)
             return False
         
         else:
