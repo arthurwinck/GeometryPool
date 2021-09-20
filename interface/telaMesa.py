@@ -17,6 +17,7 @@ class TelaMesa(Sprite):
         self.tamPos = ((self.telaX - self.tamX)/2,(self.telaY - self.tamY)/2, self.tamX, self.tamY)
         #variável que teria que ser colocada em um arquivo de configuração
         self.green = (34, 161, 65)
+        self.red = (255,0,0)
 
     def desenharMesa(self):
         self.superficie.fill((82,91,247))
@@ -40,14 +41,20 @@ class TelaMesa(Sprite):
         if jogadores[1].nome == "":
             jogNome2 = "Jogador2"
         else:
-            jogNome2 = jogadores[0].nome[1]
+            jogNome2 = jogadores[1].nome
 
-        jogador1  = fonte_jogo.render(f'{jogNome1}', True, self.green, (0,0,0))
-        pontosJogador1 = fonte_jogo.render(f'Pontos: {jogadores[0].pontos}', True, self.green, (0,0,0))
-
-        jogador2 = fonte_jogo.render(f'{jogNome2}', True, self.green, (0,0,0))
-        pontosJogador2 = fonte_jogo.render(f'Pontos: {jogadores[1].pontos}', True, self.green, (0,0,0))
-
+        if jogadores[0].turno == True:
+            jogador1  = fonte_jogo.render(f'{jogNome1}', True, self.red, (0,0,0))
+            pontosJogador1 = fonte_jogo.render(f'Pontos: {jogadores[0].pontos}', True, self.red, (0,0,0))
+        
+            jogador2 = fonte_jogo.render(f'{jogNome2}', True, self.green, (0,0,0))
+            pontosJogador2 = fonte_jogo.render(f'Pontos: {jogadores[1].pontos}', True, self.green, (0,0,0))
+        else:
+            jogador1  = fonte_jogo.render(f'{jogNome1}', True, self.green, (0,0,0))
+            pontosJogador1 = fonte_jogo.render(f'Pontos: {jogadores[0].pontos}', True, self.green, (0,0,0))
+        
+            jogador2 = fonte_jogo.render(f'{jogNome2}', True, self.red, (0,0,0))
+            pontosJogador2 = fonte_jogo.render(f'Pontos: {jogadores[1].pontos}', True, self.red, (0,0,0))
 
         self.superficie.blit(jogador1, (10,10))
         self.superficie.blit(pontosJogador1, (10,50))

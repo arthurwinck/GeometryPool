@@ -1,3 +1,4 @@
+from os import error
 import pygame as py
 import numpy as np
 import pymunk
@@ -29,13 +30,18 @@ class Mesa:
         self.space = pymunk.Space()
 
         #self.space.gravity = 20,20
-        self.criarBolas()
 
     def iniciarJogadores(self, nomes_jogadores):
-        jogador1 = Jogador(nomes_jogadores[0])
-        jogador2 = Jogador(nomes_jogadores[1])
+
+        taco1 = Taco()
+        taco2 = Taco()
+
+        jogador1 = Jogador(nomes_jogadores[0], taco1)
+        jogador2 = Jogador(nomes_jogadores[1], taco2)
 
         self.jogadores = [jogador1, jogador2]
+
+        self.definirOrdemJogadores()
 
     def definirOrdemJogadores(self):
         num = randint(0,1)
@@ -48,11 +54,146 @@ class Mesa:
     def setJogadorInicial(self, jogador):
         jogador.setTurnoJogador()
 
-    def ObterJogadorDaVez(self):
+    def obterJogadorDaVez(self):
         if self.jogadores[0].turno:
             return self.jogadores[0]
         else:
             return self.jogadores[1]
+
+    def obterTodasCacapas(self):
+        return self.cacapas
+
+    def verificarVencedor(self):
+        cacapas = self.obterTodasCacapas()
+        quantidade_bolas = 0
+        bola7 = False
+
+        for cacapa in cacapas:
+            bolas = cacapa.obterBolas()
+            quantidade_bolas += len(bolas)
+
+            for bola in bolas:
+                valor = bola.getValor()
+
+                if valor == 7:
+                    bola7 = True
+
+        total = self.obterTotalBolasJogo()
+
+
+        #Se só existir a bola branca na lista de bolas
+        if total == 1:
+            jogador = self.obterJogadorMaiorPontuacao()
+            jogador.definirVencedor()
+            #Se existir um vencedor ele irá retornar esse jogador, se não, None
+            return jogador
+
+        else:
+
+            #Se só existir a bola7 e a bola branca
+            if bola7 == False and total == 2:
+                jogador = self.obterJogadorDaVez()
+                falta = jogador.obterFaltaJogador()
+
+                if falta:
+                    pontos = self.obterDiferencaPontosJogadores()
+
+                    if pontos > 7:
+                        return
+                    else:
+                        jogador = self.obterProximoJogador()
+                        jogador.definirVencedor()
+                        return
+                else:
+                    return
+            else:
+                return
+
+    def verificarJogada(self):
+        jogador = self.obterJogadorDaVez()
+        bolas = jogador.obterBolas()
+
+        branca = self.verificarBolaBrancaEncacapada(bolas)
+
+        if branca:
+            jogador.setJogadaInvalida()
+            return False
+        
+        else:
+            bolaTocada = jogador.obterBolaTocada()
+            bolaVermelha = jogador.obterBolaVermelha()
+            bolaNumerada = jogador.obterBolaNumerada()
+
+            if bolaTocada == None:
+                jogador.setJogadaInvalida()
+                return False
+
+            if bolaTocada.getValor() == 5 and bolaVermelha:
+                jogador.setJogadaValida()
+                return True
+
+            elif bolaTocada.getValor() != 5 and bolaNumerada:
+                jogador.setJogadaValida()
+                return True
+
+            else:
+                jogador.setJogadaInvalida()
+                return False
+
+    def obterTodasCacapas(self):
+        return self.cacapas
+
+    def obterTotalBolasJogo(self):
+        return self.bolas
+
+    def verificarBolaBrancaEncacapada(self, bolas):
+        for bola in bolas:
+            if isinstance(bola, BolaPontos):
+                continue
+            else:
+                return True
+
+    def obterJogadorMaiorPontuacao(self):
+        if self.jogadores[0].pontos > self.jogadores[1].pontos:
+            return self.jogadores[0]
+        elif self.jogadores[0].pontos > self.jogadores[1].pontos:
+            return self.jogadores[1]
+        else:
+            print("Os jogadores empataram")
+            raise error
+
+    def obterDiferencaPontosJogadores(self):
+        return abs(self.jogadores[0].pontos - self.jogadores[1].pontos)
+
+    def obterProximoJogador(self):
+        if self.jogadores[0].turno:
+            return self.jogadores[1]
+        else:
+            return self.jogadores[0]
+
+    def trocarTurnoJogadores(self):
+        if self.jogadores[0].turno == True:
+            self.jogadores[0].passarTurno()
+            self.jogadores[1].setTurnoJogador()
+        else:
+            self.jogadores[1].passarTurno()
+            self.jogadores[0].setTurnoJogador()
+
+    def calculaPontosJogador(self, bolas):
+        pontos = 0
+        for bola in bolas:
+            bola_pontos = bola.getValor()
+            pontos += bola_pontos
+
+        return pontos
+
+    def definirAnguloTaco(self, angulo):
+        posicao = self.bolas[0].getPosicao()
+        vec_x, vec_y = posicao[0] - angulo[0], posicao[1] - angulo[1]
+        vec_len = np.sqrt(vec_x ** 2 + vec_y**2)
+        vec_x, vec_y = vec_x / vec_len, vec_y / vec_len
+
+        return (vec_x, vec_y)
 
     def criarBolas(self):
         #Instanciar os objetos necessários para o início do jogo
@@ -72,102 +213,14 @@ class Mesa:
             self.space.add(bolaVermelha.corpo, bolaVermelha.forma)
         #criando o espaço físico da simulação, e adicionando as bolas nele
 
-    #TODO - ATUALIZAR DIAGRAMA
-    def inicializar(self, configuracoes_jogo):
+        for i in range(5):
+            bolaVermelha = BolaPontos(i*50 + 450, i*30 + 420, 0, (0,0,255), 10)
+            self.bolas.append(bolaVermelha)
+            self.space.add(bolaVermelha.corpo, bolaVermelha.forma)
 
-        self.criarCacapas(configuracoes_jogo[1])
-        self.criarBordas(configuracoes_jogo[0])
-        texto_jogadores = self.telaMesa.desenharJogadores(self.jogadores)
-
-        textRect1 = texto_jogadores[0].get_rect()
-        textRect2 = texto_jogadores[1].get_rect()
-
-
-        x = 600
-        y = 400
-
-        textRect1.center = (x/2,y/2)
-        textRect2.center = (x/2,y/2)
-
-
-        #Loop do jogo -- talvez tenha que estar na verdade na classe Mesa
-        taco = Taco()
-        clicking = False
-
-        #Loop do jogo -- talvez tenha que estar na verdade na classe Mesa
-        while True:
-
-            for cacapa in self.cacapas:
-                bola_colisao = cacapa.ChecarColisao(self.bolas)
-
-                if bola_colisao != None:
-                
-                    if isinstance(bola_colisao, BolaPontos):
-                        jogador = self.ObterJogadorDaVez()
-                        jogador.bolas.append(bola_colisao)
-                        self.bolas.remove(bola_colisao)
-                        jogador.AdicionarPontos(bola_colisao.getValor())
-
-                    else:
-                        #TODO - Implementar lógica quando a bola branca é encaçapada
-                        print("Você encaçapou a bola branca")
-
-            movimento = False
-
-            for bola in self.bolas:
-                mov = bola.aplicarAtrito()
-                if mov == True:
-                    movimento = True
-                
-
-            mx, my = py.mouse.get_pos()
-            bola_x, bola_y = self.bolas[0].getPosicao()
-
-            # linalg stuff, talvez separar em outro lugar?
-            vec_x, vec_y = bola_x - mx, bola_y - my
-            vec_len = np.sqrt(vec_x ** 2 + vec_y**2)
-            vec_x, vec_y = vec_x / vec_len, vec_y / vec_len
-
-            for event in py.event.get():
-                if event.type == py.QUIT:
-                    py.quit()
-                    quit()
-                if event.type == py.MOUSEBUTTONDOWN and movimento == False:
-                    clicking = True
-                if event.type == py.MOUSEBUTTONUP and movimento == False:
-                    impulso_bola = taco.getForca(vec_x, vec_y)
-
-                    # TODO: adicionar metodo na bola branca para impulso
-                    self.bolas[0].corpo.apply_force_at_local_point(impulso_bola)
-
-                    taco.reset()
-                    clicking = False
-
-            if clicking and movimento == False:
-                taco.aumentarForca()
-
-            self.telaMesa.superficie.fill((82,91,247))
-            self.telaMesa.desenharMesa()
-            self.telaMesa.desenharBolas(self.bolas)
-            self.telaMesa.desenharLimites(self.limites)
-            self.telaMesa.desenharJogadores(self.jogadores)
-
-
-            if movimento == False:
-                self.telaMesa.desenharTaco(taco, vec_x, vec_y, bola_x, bola_y)
-            
-            
-            self.tela.update()
-            self.clock.tick(self.fps)
-            self.space.step(1/self.fps)
-            
-            
-
-    #TODO - ATUALIZAR DIAGRAMA
     def criarBordas(self, formato_mesa):
         #instanciar os limites da mesa
         #Bordas da mesa, x0,y0 (esquerdo inferior); x1,y0 (direito inferior); x0,y1 (esquerdo superior) e x1,y1 (direito superior)
-        #TODO - PROVAVELMENTE TERÁ QUE SER UM MÉTODO POR SI SÓ
         x0 = self.telaMesa.tamPos[0]
         y0 = self.telaMesa.tamPos[1]
         x1 = x0 + self.telaMesa.tamX
@@ -192,5 +245,137 @@ class Mesa:
                 cacapa = Cacapa(((self.telaMesa.telaX - self.telaMesa.tamX)/2 + (self.telaMesa.tamX/2)*i, (self.telaMesa.telaY - self.telaMesa.tamY)/2 + (self.telaMesa.tamY)*j), 20)
                 self.cacapas.append(cacapa)
 
+    def inicializar(self, configuracoes_jogo):
 
+        self.criarBolas()
+        self.criarCacapas(configuracoes_jogo[1])
+        self.criarBordas(configuracoes_jogo[0])
+
+        self.desenhar()
+
+    def desenhar(self):
+
+        texto_jogadores = self.telaMesa.desenharJogadores(self.jogadores)
+
+        textRect1 = texto_jogadores[0].get_rect()
+        textRect2 = texto_jogadores[1].get_rect()
+
+
+        x = 600
+        y = 400
+
+        textRect1.center = (x/2,y/2)
+        textRect2.center = (x/2,y/2)
+
+
+        #taco = Taco()
+        
+        jogador = self.obterJogadorDaVez()
+        taco = jogador.obterTaco()
+
+        clicking = False
+
+        #Loop do jogo -- talvez tenha que estar na verdade na classe Mesa
+        while True:
+
+            bola = self.bolas[0].checarColisao(self.bolas)
+            
+            if bola != None:
+                jogador.salvarBolaTocadaJogador()
+
+            for cacapa in self.cacapas:
+                bola_colisao = cacapa.ChecarColisao(self.bolas)
+
+                if bola_colisao != None:
+
+                    jogador.bolas.append(bola_colisao)
+                    self.bolas.remove(bola_colisao)
+                
+                    if isinstance(bola_colisao, BolaPontos):
+                        jogador.setFezPontos()
+
+            movimento = False
+            jogada = False
+
+
+            for bola in self.bolas:
+                mov = bola.aplicarAtrito()
+                if mov == True:
+                    movimento = True
+                    jogada = True
+                
+
+            mx, my = py.mouse.get_pos()
+            vetorTaco = self.definirAnguloTaco((mx,my))
+
+            for event in py.event.get():
+                if event.type == py.QUIT:
+                    py.quit()
+                    quit()
+                if event.type == py.MOUSEBUTTONDOWN and movimento == False:
+                    clicking = True
+                if event.type == py.MOUSEBUTTONUP and movimento == False:
+                    impulso_bola = taco.getForca(vetorTaco[0], vetorTaco[1])
+
+                    # TODO: adicionar metodo na bola branca para impulso
+                    self.bolas[0].aplicarImpulso(impulso_bola)
+                    taco.reset()
+                    clicking = False
+
+            if clicking and movimento == False:
+                taco.aumentarForca()
+
+            self.telaMesa.superficie.fill((82,91,247))
+            self.telaMesa.desenharMesa()
+            self.telaMesa.desenharBolas(self.bolas)
+            self.telaMesa.desenharLimites(self.limites)
+            self.telaMesa.desenharJogadores(self.jogadores)
+
+            print(f"movimento: {movimento} jogada: {jogada} jogador: {jogador.nome}")
+
+            #Parada no movimento causa possibilidade de realizar jogada
+            if movimento == False:
+                bola_x, bola_y = self.bolas[0].getPosicao()
+                self.telaMesa.desenharTaco(taco, vetorTaco[0], vetorTaco[1], bola_x, bola_y)
+
+                if jogada == True:
+                    jogada = False
+
+                    jogadaValida = self.verificarJogada()
+
+                    if jogadaValida:
+                        fezPontos = jogador.obterFezPontos()
+
+                        if fezPontos:
+                            bolas = jogador.obterBolas()
+                            pontos = self.calculaPontosJogador(bolas)
+                            jogador.AdicionarPontos(pontos)
+
+                            jogador.inverteBolaVermelha()
+                            jogador.inverteBolaNumerada()
+
+                        else:
+                            self.trocarTurnoJogadores()
+                    
+                    else:
+                        bolas = jogador.obterBolas()
+                        pontos = self.calculaPontosJogador(bolas)
+                        jogador2 = self.obterProximoJogador()
+                        jogador2.adicionarPontos(pontos)
+                        self.trocarTurnoJogadores()
+
+                    vencedor = self.verificarVencedor()
+
+                    #TODO - Criar texto na tela notificando a vitória do Jogador
+                    if vencedor != None:
+                        print(f"O jogador {vencedor.nome}")
+                        raise error
+
+                    
+                    #Obtenho o "próximo" jogador toda vez que o movimento se encerra (?)
+                           
+        
+            self.tela.update()
+            self.clock.tick(self.fps)
+            self.space.step(1/self.fps)
 

@@ -47,3 +47,17 @@ class Bola():
 
     def getBody(self):
         return self.corpo
+
+    def aplicarImpulso(self, impulso_bola):
+        self.corpo.apply_force_at_local_point(impulso_bola)
+
+    def checarColisao(self, bolas):
+        for bola in bolas:
+            if self != bola:
+                distancia = (self.corpo.position.x - bola.corpo.position.x)**2 + (self.corpo.position.y - bola.corpo.position.y)**2
+                distancia_raio = self.raio*2
+
+                if distancia <= distancia_raio:
+                    return bola
+
+        return None
