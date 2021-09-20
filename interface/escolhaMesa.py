@@ -73,5 +73,5 @@ class EscolhaMesa(QMainWindow):
 
     def iniciar_aleatorio(self):
         self.formatoMesa = "Retangular"
-        self.numeroCacapa = 6
+        self.numeroCacapa = 6#self.listaCacapas[randint() % len(self.listaCacapas)]
         self.iniciar_jogo()

@@ -144,11 +144,11 @@ class Mesa:
                 #print('nao tocou nenhuma bola')
                 return False
 
-            if bolaTocada.getValor() == 5 and bolaVermelha:
+            if bolaTocada.getValor() == 1 and bolaVermelha:
                 jogador.setJogadaValida()
                 return True
 
-            elif bolaTocada.getValor() != 5 and bolaNumerada:
+            elif bolaTocada.getValor() != 1 and bolaNumerada:
                 jogador.setJogadaValida()
                 return True
 
@@ -249,10 +249,11 @@ class Mesa:
                 self.space.add(bolaVermelha.corpo, bolaVermelha.forma)
             #criando o espaço físico da simulação, e adicionando as bolas nele
 
-        #Bola 7
-        bola7 = BolaPontos(posicao_inicial_x + 30, (posicao_inicial_y+15), 0, (0,0,0), 7)
-        self.bolas.append(bola7)
-        self.space.add(bola7.corpo, bola7.forma)
+        # #Bola 7
+        # bola7 = BolaPontos(posicao_inicial_x + 30, (posicao_inicial_y+15), 0, (0,0,0), 7)
+        # self.bolas.append(bola7)
+        # self.space.add(bola7.corpo, bola7.forma)
+        self.colocarBola7()
 
         #Bola 6
         bola6 = BolaPontos(posicao_inicial_x + -250, (posicao_inicial_y+15), 0, (255,100,180), 6)
@@ -278,6 +279,12 @@ class Mesa:
         bola2 = BolaPontos(400, 480 , 0, (255,255,0), 2)
         self.bolas.append(bola2)
         self.space.add(bola2.corpo, bola2.forma)
+
+    def colocarBola7(self):
+        #Bola 7
+        bola7 = BolaPontos(1000 + 30, (320+15), 0, (0,0,0), 7)
+        self.bolas.append(bola7)
+        self.space.add(bola7.corpo, bola7.forma)
 
 
     def criarBordas(self, formato_mesa):
@@ -364,6 +371,11 @@ class Mesa:
                     if isinstance(bola_colisao, BolaPontos):
                         jogador.setFezPontos()
                         self.bolas.remove(bola_colisao)
+                        for i in self.bolas:
+                            if len(self.bolas) == 1:
+                                break
+                            elif bola_colisao.getValor() == 7:
+                                self.colocarBola7()
                     else:
                         self.bolas[0].corpo.position = 400, 200
                         self.bolas[0].corpo.velocity = 0, 0
