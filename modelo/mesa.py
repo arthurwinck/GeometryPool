@@ -81,10 +81,10 @@ class Mesa:
                     bola7 = True
 
         total = self.obterTotalBolasJogo()
-
+        print(total)
 
         #Se só existir a bola branca na lista de bolas
-        if total == 1:
+        if len(total) == 1:
             jogador = self.obterJogadorMaiorPontuacao()
             jogador.definirVencedor()
             #Se existir um vencedor ele irá retornar esse jogador, se não, None
@@ -219,7 +219,7 @@ class Mesa:
         #instanciando as 15 bolas vermelhas 
         #TODO - Instanciar as bolas de outras cores 
 
-        for i in range(10):
+        for i in range(1):
             #TODO - fazer matemática de criação de bolas (formato de triângulo)
             bolaVermelha = BolaPontos(i*50 + 250, i*30 + 200, 0, (255,0,0), 5)
             #bolaVermelha = BolaPontos(200, 200, 20, (255,0,0), 5)
@@ -227,7 +227,7 @@ class Mesa:
             self.space.add(bolaVermelha.corpo, bolaVermelha.forma)
         #criando o espaço físico da simulação, e adicionando as bolas nele
 
-        for i in range(5):
+        for i in range(1):
             bolaVermelha = BolaPontos(i*50 + 450, i*30 + 420, 0, (0,0,255), 10)
             self.bolas.append(bolaVermelha)
             self.space.add(bolaVermelha.corpo, bolaVermelha.forma)
@@ -393,8 +393,8 @@ class Mesa:
 
                     #TODO - Criar texto na tela notificando a vitória do Jogador
                     if vencedor != None:
-                        print(f"O jogador {vencedor.nome}")
-                        raise error
+                        self.telaMesa.notificarFinal(jogador)
+                        break
 
                     
                     #Obtenho o "próximo" jogador toda vez que o movimento se encerra (?)

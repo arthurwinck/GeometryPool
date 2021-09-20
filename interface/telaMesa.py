@@ -120,3 +120,8 @@ class TelaMesa(Sprite):
         ))
 
         self.superficie.blit(rotated_taco, taco_rect)
+
+    def notificarFinal(self, jogador):
+        fonte_jogo = py.font.Font('freesansbold.ttf', 20)
+        jogadorVencedor  = fonte_jogo.render(f'{jogador.nome} venceu!', True, self.red, (0,0,0))
+        self.superficie.blit(jogadorVencedor, (640,360))
