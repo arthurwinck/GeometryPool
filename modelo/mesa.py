@@ -330,6 +330,9 @@ class Mesa:
         ranking.inserir_jogador_ranking(jogador.nome, jogador.pontos)
         py.quit()
 
+    def verificarMovimentoObjetos(self):
+        return any([bola.aplicarAtrito() for bola in self.bolas])
+
 
     def desenhar(self):
 
@@ -383,7 +386,7 @@ class Mesa:
                         self.bolas[0].corpo.position = 400, 200
                         self.bolas[0].corpo.velocity = 0, 0
 
-            algum_movimento = any([bola.aplicarAtrito() for bola in self.bolas])
+            algum_movimento = self.verificarMovimentoObjetos()
 
             if algum_movimento:
                 movimento = True
